@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "sort"
+    "strconv"
     "strings"
 )
 
@@ -80,7 +81,78 @@ func Multiple3And5(number int) int {
     return n
 }
 
+/*Thinking & Testing: A * B? (6 kyu)*/
+func TestIt(a, b int) int {
+    // if one of inputs are divisible by 2 and one is not
+    // then just multiple both
+    if (a % 2 != 0 && b % 2 == 0) || (a % 2 == 0 && b % 2 != 0) {
+        return a * b
+    }
+
+    // if both multiply and first values of numbers are not zero,
+    // and the last ones is zero
+    c := a * b
+    firstIsNotZero := false
+    lastOnesZero := []int{}
+    firstNumber := 0
+
+    for i, n := range strings.Split(strconv.Itoa(c), "") {
+
+        if i == 0 {
+            if n != "0" {
+                firstNumber, _= strconv.Atoi(n)
+                firstIsNotZero = true}
+        }
+
+        if i > 0 {
+            if n == "0" {
+                lastOnesZero = append(lastOnesZero, 0)
+            }
+        }
+    }
+
+    if (len(lastOnesZero) == len(strconv.Itoa(c))-1) && firstIsNotZero {
+        return firstNumber
+    }
+
+
+    if a % 2 == 0 && b % 2 == 0 {
+        return b - a - 1
+    }
+
+    if (a % 5 == 0 && b % 3 == 0) || (a % 3 == 0 && b % 5 == 0) {
+
+        if a % 5 == 0  {
+            return (a / 5) + a
+        } else if b % 5 == 0 {
+            return (b / 5) + b
+        }
+    }
+
+
+
+    return 0
+}
+
+/*Find the odd int (6 kyu)*/
+func FindOdd(seq []int) int {
+    seen := make(map[int]int)
+
+    for _, i := range seq {
+        seen[i]++
+    }
+
+    var oddN int
+
+    for n, ocurrances := range seen {
+        if ocurrances % 2 != 0 {
+            oddN = n
+            break
+        }
+    }
+
+    return oddN
+}
+
 func main() {
-    n := Multiple3And5(10)
-    fmt.Println(n)
 }
